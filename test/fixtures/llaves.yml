@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  puerta_id: 1
+  cantidad: 1
+  descripcion: MyString
+
+two:
+  puerta_id: 1
+  cantidad: 1
+  descripcion: MyString

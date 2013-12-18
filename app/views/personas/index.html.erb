@@ -1,0 +1,39 @@
+
+
+
+<h1>Lista personas</h1>
+
+<table>
+  <tr>
+    <th>Documento<%= link_to(image_tag("flecha.png"),:sort => "documento" )%></th>
+    <th>Nombre<%= link_to(image_tag("flecha.png"),:sort => "nombre" )%></th>
+    <th>Apellido<%= link_to(image_tag("flecha.png"),:sort => "apellido" )%></th>
+    <th>Telefono<%= link_to(image_tag("flecha.png"),:sort => "telefono" )%></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @personas_ordenada.each do |persona| %>
+  <tr>
+    <td><%= persona.documento %></td>
+    <td><%= persona.nombre %></td>
+    <td><%= persona.apellido %></td>
+    <td><%= persona.telefono %></td>
+    <td><%= link_to 'Ver', persona %></td>
+
+      <!--Solo ve esta parte si es ADMIN
+-->
+          <%if current_user.admin? %>
+    <td><%= link_to 'Editar', edit_persona_path(persona) %></td>
+    <td><%= link_to 'Destruir', persona, method: :delete, data: { confirm: 'Estás seguro?' } %></td>
+          <%end%>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to(image_tag("nueva_persona.png"), new_persona_path)%>
+

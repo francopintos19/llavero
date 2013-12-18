@@ -1,0 +1,28 @@
+<%= form_for(@key) do |f| %>
+  <% if @key.errors.any? %>
+    <div id="error_explanation">
+       
+      <h2> <span style="color: red;">No se puede guardar: </span></h2>
+    
+
+      <ul>
+      <% @key.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :descripcion %><br />
+    <%= f.text_field :descripcion %>
+  </div>
+  <div class="field">
+    <%= f.label :numero %><br />
+    <%= f.text_field :numero %>
+  </div>
+  
+  <div class="actions">
+    <%= image_submit_tag("aceptar.png")%>
+  </div>
+<% end %>

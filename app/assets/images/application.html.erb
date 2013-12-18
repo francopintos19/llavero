@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sistema de Gestión de Llaves - Los Bertas</title>
+
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+ 
+ <%=render "layouts/stylesheets"%>
+ 
+</head>
+<body>
+	<div class="container">
+<div>
+	<div id="user_nav">
+		<%if user_signed_in? %>
+			Logueado como
+			<strong><u>
+			<%= current_user.email%>
+			</strong></u>
+			No eres tu?
+			<strong>
+				<%= link_to "Cerrar Sesión", destroy_user_session_path, :method => :delete%>
+				</strong>
+					<%else%>
+					
+					<%end%>
+					
+						<%if current_user.try(:admin?)%>
+						<H2>
+ 							 SuperUser:<strong> <%= current_user.email%></strong>
+ 						</H2>	 
+						<%end%>
+						<br>
+						<%= link_to(image_tag("inicio.png"), :root)%>
+<section class="round">
+<%= yield %>
+			<%=render "layouts/footer"%>
+	</section>	
+	</div>
+</body>
+</html>

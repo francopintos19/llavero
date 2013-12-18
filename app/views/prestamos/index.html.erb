@@ -1,0 +1,46 @@
+<h1>Lista de prestamos</h1>
+
+<table  >
+  <tr >
+    
+    <th width="100em">Usuario<%=link_to(image_tag("flecha.png"),:sort => "usuario_id" )%></th>
+    <th width="100em">Persona<%= link_to(image_tag("flecha.png"),:sort => "persona_id" )%></th>
+    <th width="100em">Llave<%= link_to(image_tag("flecha.png"),:sort => "llave_id" )%></th>
+    <th width="100em">Fecha<%= link_to(image_tag("flecha.png"),:sort => "fecha" )%></th>
+    <th width="100em">Devuelto<%= link_to(image_tag("flecha.png"),:sort => "devuelto" )%></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @prestamos_ordenados.each do |prestamo| %>
+  <tr>
+    <td><%= prestamo.user.persona.apellido %></td>
+    <td><%= prestamo.persona.apellido+", "+prestamo.persona.nombre %></td>
+    <td><%= prestamo.key.numero%></td>
+    <td><%= prestamo.fecha  %></td>
+    <td><%if  prestamo.devuelto == true;%>
+        <span style="color: green;">
+        SI
+      </span>
+        <%else%>
+        <span style="color: red;">
+        NO
+      </span>
+      <%end%>
+    </td>
+    <td><%= link_to 'Ver', prestamo %></td>
+    <td><%= link_to 'Editar', edit_prestamo_path(prestamo) %></td>
+
+
+       <!--Solo ve esta parte si es ADMIN-->
+          <%if current_user.admin? %>
+    <td><%= link_to 'Destruir', prestamo, method: :delete, data: { confirm: 'Estás seguro?' } %></td>
+          <%end%>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= link_to(image_tag("nuevo_prestamo.png"),new_prestamo_path) %>

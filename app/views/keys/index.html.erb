@@ -1,0 +1,32 @@
+<h1>Lista de Llaves</h1>
+
+<table>
+  <tr>
+    <th>Descripción<%= link_to(image_tag("flecha.png"),:sort => "descripcion" )%></th>
+    <th>Número<%= link_to(image_tag("flecha.png"),:sort => "numero" )%></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @keys_ordenadas.each do |key| %>
+  <tr>
+    <td><%= key.descripcion %></td>
+    <td><%= key.numero %></td>
+    
+    <td><%= link_to 'Ver', key %></td>
+    
+          <!--Solo ve esta parte si es ADMIN-->
+          <%if current_user.admin? %>
+    
+    <td><%= link_to 'Editar', edit_key_path(key) %></td>
+    <td><%= link_to 'Destruir', key, method: :delete, data: { confirm: 'Estás seguro?' } %></td>
+
+          <%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to(image_tag("crear_llave.png"), new_key_path) %>

@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Usuario:</b>
+
+  <%= @prestamo.user.email %>
+</p>
+
+<p>
+  <b>Persona:</b>
+  <%= @prestamo.persona.apellido+", "+@prestamo.persona.nombre %>
+</p>
+
+<p>
+  <b>Llave:</b>
+  <%= @prestamo.key.numero %>
+</p>
+<p>
+  <b>Descripcion:</b>
+  <%= @prestamo.key.descripcion %>
+</p>
+<p>
+  <b>Fecha:</b>
+  <%= @prestamo.fecha %>
+</p>
+
+<p>
+  <b>Devuelto:</b>
+<%if  @prestamo.devuelto == true;%>
+
+      <span style="color: green;">
+        SI
+      </span>
+        <%else%>
+      <span style="color: red;">
+        NO
+      </span>
+      <%end%>
+</p>
+
+
+<%= link_to 'Editar', edit_prestamo_path(@prestamo) %> |
+<%= link_to 'Atrás', prestamos_path %>

@@ -1,0 +1,33 @@
+<h1><%=image_tag("Blueprint.png")%>Panel de Control</h1>
+<%if flash[:notice] %>
+		<div class="notice">
+			<%=flash[:notice] %>
+		</div>	
+		<%end%>	
+<p>
+
+<table>
+<tr>
+<td><%= link_to(image_tag("nuevo_prestamo.png"),new_prestamo_path) %></td>
+<td><%= link_to(image_tag("agregar_persona.png"),new_persona_path) %></td>
+<td><%= link_to(image_tag("agregar_llave.png"),new_key_path) %></td>
+</tr>
+<tr>
+
+<td><%= link_to(image_tag("ver_prestamos.png"),:controller =>"prestamos",:action => "index")%></td>
+<td><%= link_to(image_tag("ver_personas.png"),:controller =>"personas",:action => "index")%></td>
+<td><%= link_to(image_tag("ver_llaves.png"),:controller =>"keys",:action => "index") %></td>
+</tr>
+<td><%= link_to(image_tag("pendientes.png"),pendiente_pendientevista_path) %></td>
+<%if current_user.admin? %>
+<td><%= link_to(image_tag("nuevo_usuario.png"), new_user_registration_path) %></td>
+
+<td><%=link_to(image_tag("editar_usuarios.png"),user_index_path)%></td>
+</tr>
+<%end%>
+
+</table>
+
+
+
+</p>

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Documento:</b>
+  <%= @persona.documento %>
+</p>
+
+<p>
+  <b>Nombre:</b>
+  <%= @persona.nombre %>
+</p>
+
+<p>
+  <b>Apellido:</b>
+  <%= @persona.apellido %>
+</p>
+
+<p>
+  <b>Telefono:</b>
+  <%= @persona.telefono %>
+</p>
+
+
+<%= link_to 'Editar', edit_persona_path(@persona) %> |
+<%= link_to 'Atrás', personas_path %>

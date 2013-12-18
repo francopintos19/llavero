@@ -1,0 +1,86 @@
+<%if current_user.admin? %>
+
+<h2>Registrar Usuario</h2>
+
+
+
+<div class="text">
+
+<%=label_tag "Ingresar dni"%>
+
+ <%= form_tag new_user_registration_path, :method => :get do %>
+  <%= text_field_tag :search,params[:search],:autofocus => true %>
+   <%= submit_tag "Verificar", :name => nil %>
+ <%end%>  
+<br> 
+</div>
+
+
+<%@busqueda_nombre = Persona.where(:documento => params[:search]) %>
+
+<!-- Mostramos Persona -->
+
+<%=label_tag "persona:" %>
+      <%@busqueda_nombre.each do |n| %>
+    	    <%=n.apellido+", "+n.nombre%>
+   	  <%end%>
+
+      <%if @busqueda_nombre == nil%>
+   
+      <%end%>
+
+
+<%if @busqueda_nombre.exists? == false && params[:search]!= nil%>
+          <span style="color: red;">
+             	<q id="no_existe_persona">     No existe la persona con DNI n°<%= params[:search]%></q>
+          </span>   
+          <br>  
+             	<%= link_to(image_tag("agregar_persona.png"),new_persona_path) %>
+<%end%>
+
+<BR>
+
+<hr>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+<div class="field" style="display:none">
+    <%= f.select :persona_id,  @busqueda_nombre.map {|n| [n.apellido+", "+n.nombre, n.id]  } %>
+</div>
+
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email %></div>
+<hr>
+  <div><%= f.label :contraseña %><br />
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :confirmar_contraseña	 %><br />
+  <%= f.password_field :password_confirmation %></div>
+<hr>
+
+<div>
+<%= f.label :Administrador?   %><br />
+  <%= f.check_box :admin %>
+</div>
+
+<div>
+	<%if @busqueda_nombre.exists? == true && params[:search]!= nil%>
+		<%= f.submit "Registrar" %>
+
+	<%end%>
+
+</div>
+ 
+<%end%>
+
+
+
+<!--
+<%= render "devise/shared/links" %>
+-->
+<%else%>
+Necesita ser administrador para ingresar a esta sección.
+<hr>
+<%= image_tag("accesodenegado.png")%>
+<%end%>

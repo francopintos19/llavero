@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  usuario_id: 1
+  persona_id: 1
+  llave_id: 1
+  fecha: 2013-07-15 11:31:51
+  devuelto: false
+
+two:
+  usuario_id: 1
+  persona_id: 1
+  llave_id: 1
+  fecha: 2013-07-15 11:31:51
+  devuelto: false

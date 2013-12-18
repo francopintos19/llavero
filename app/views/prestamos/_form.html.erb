@@ -1,0 +1,188 @@
+
+<!-- CODIGO FORMULARIO DE BUSQUEDA -->
+<div class="text">
+  <strong>
+  Ingresar DNI
+</strong> (Persona que solicita la llave)
+    <%= form_tag new_prestamo_path, :method => :get do %>
+
+
+    <%= text_field_tag :search ,(params[:search])%>
+
+<BR>   
+
+  <strong>
+
+  Ingresar n° de Llave
+
+</strong>
+<BR>
+  
+
+    <%= text_field_tag :search2, (params[:search2])%>
+    <br>
+   <%= image_submit_tag("verificar.png")%>
+<BR>
+<%end%>
+
+
+<hr>
+</div>
+
+
+ <%=label_tag "persona:"  %>
+        <%@busqueda_persona.each do |n| %>
+     		<%=label_tag :estepa,n.apellido+", "+n.nombre %>
+			<%@id_de_persona = n.id%> 
+ 		<%end%>
+
+
+<!-- Si no existe la persona -->
+
+<%if @busqueda_persona.exists? == false && params[:search]!= nil%>
+  
+          <span style="color: red;">
+             <q id="no_existe_persona">     No existe la persona con DNI n°<%= params[:search]%></q>
+          </span>   
+          <br>  
+             <%= link_to(image_tag("agregar_persona.png"),new_persona_path) %>
+<%end%>
+
+<!-- Si la persona tiene prestamos pendientes -->
+
+<%if Prestamo.where(:devuelto=> false, :persona_id => @id_de_persona).exists?  %>
+<BR>	
+   <span style="color: orange;">	
+	 Esta persona tiene prestamos pendientes.
+  </span>
+<br>
+	<% @ver = Prestamo.where(:devuelto=> false, :persona_id => @id_de_persona)%>
+		<% @ver.each do |n|%>
+				Llave:			
+				<%=n.key.numero%>
+				<br>		
+		<%end%>
+<%end%>
+
+<BR>
+
+
+<div>
+
+
+
+<%=label_tag "llave:" %>
+
+    <%if Key.where(:numero => (params[:search2]))==[] && (params[:search2])!= nil%>
+          <span style="color: red;">
+            
+          <q id="no_existe_llave">  No existe la llave</q>
+                       
+          </span> 
+
+    <%end%>
+
+
+
+
+
+<!-- Obtenemos el ID de la llave que se pide -->
+<%@busqueda_llave.each do |n|%>
+    <%@id_de_llave = n.id%>
+<%end%>
+
+
+
+
+  <%if Prestamo.where(:devuelto=> false, :llave_id => @id_de_llave).exists? == true and Key.where(:numero => (params[:search2])) %>
+
+          <%@mostrar = Prestamo.where(:devuelto=> false, :llave_id => @id_de_llave)%>
+                   <%= params[:search2] %> -
+                      <span style="color: red;">
+                            Llave no disponible 
+                      </span>- Prestada a: 
+
+                          <%@mostrar.each do |n| %>
+                              <strong>
+                                <%=n.persona.apellido+", "+n.persona.nombre%>
+                              </strong>
+
+  <%end%>
+      
+
+  <%elsif Prestamo.where(:devuelto=> false, :llave_id => @id_de_llave).exists? == false and Key.where(:numero => (params[:search2])) != [] %>
+        
+            <%= params[:search2] %> -
+        <span style="color: green;">
+             Llave disponible
+        </span>    
+  <%end%>
+
+
+
+
+
+
+
+</div>
+<!-- Validacion de las devoluciones y mostramos llave -->
+
+
+<br>
+<!-- Mostramos Persona -->
+   
+
+
+
+<hr>
+<!-- CODIGO FORMULARIO DE SCAFFOLD -->
+
+<%= form_for(@prestamo) do |f| %>
+ 
+  <% if @prestamo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@prestamo.errors.count, "error/es") %> - Error al guardar:</h2>
+
+       <ul>
+         <% @prestamo.errors.full_messages.each do |msg| %>
+         <li><%= msg %></li>
+         <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+
+<div class="field" style="display:none">
+    <%= f.select :persona_id,  @busqueda_persona.map {|n| [n.apellido+", "+n.nombre, n.id]  } %>
+</div>
+
+
+ <div class="field" style="display:none">
+    <%= f.label :llave_id %><br />
+    <%= f.select :llave_id, @busqueda_llave.map {|n| [n.numero, n.id]}%>
+
+ </div>
+ 
+<div class="field" style="display:none" >
+  <%=f.label :fecha %>
+  <%=f.datetime_select :fecha,order:[:day,:month,:year]  %>
+ </div>
+ 
+<div class="field" style="display:none">
+    <%= f.label :devuelto %><br />
+    <%= f.check_box :devuelto %>
+
+  </div>
+
+  <%if Prestamo.where(:devuelto=> false, :llave_id => @id_de_llave).exists? == false and Key.where(:numero => (params[:search2])) != [] and @busqueda_persona.exists? == true %>
+       <div class="actions"  >
+ 
+          <%= image_submit_tag("prestar.png")%>
+
+  
+        </div>
+  <%end%>
+
+
+<% end %>
